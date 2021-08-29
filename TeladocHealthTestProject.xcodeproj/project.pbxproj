@@ -28,6 +28,8 @@
 		99E16F4926D933F800BB5132 /* NumbersDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E16F4826D933F800BB5132 /* NumbersDetailPresenter.swift */; };
 		99E16F4B26D93A0100BB5132 /* NumbersDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E16F4A26D93A0100BB5132 /* NumbersDetailItem.swift */; };
 		99E16F4E26D941DD00BB5132 /* NumbersDetailModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E16F4D26D941DD00BB5132 /* NumbersDetailModuleAssembly.swift */; };
+		99E16F5426DC304600BB5132 /* NumbersViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 99E16F5326DC304600BB5132 /* NumbersViewCell.m */; };
+		99E16F5626DC4D8100BB5132 /* DefaultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E16F5526DC4D8100BB5132 /* DefaultRequest.swift */; };
 		99FC647326CC51B400F985EF /* NCConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC647226CC51B400F985EF /* NCConfiguration.swift */; };
 		99FC647626CC5A1800F985EF /* NCHTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC647526CC5A1800F985EF /* NCHTTPMethod.swift */; };
 		99FC647826CC5DAE00F985EF /* NCRequestTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FC647726CC5DAE00F985EF /* NCRequestTask.swift */; };
@@ -96,6 +98,10 @@
 		99E16F4826D933F800BB5132 /* NumbersDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersDetailPresenter.swift; sourceTree = "<group>"; };
 		99E16F4A26D93A0100BB5132 /* NumbersDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersDetailItem.swift; sourceTree = "<group>"; };
 		99E16F4D26D941DD00BB5132 /* NumbersDetailModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersDetailModuleAssembly.swift; sourceTree = "<group>"; };
+		99E16F5126DC304600BB5132 /* TeladocHealthTestProject-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TeladocHealthTestProject-Bridging-Header.h"; sourceTree = "<group>"; };
+		99E16F5226DC304600BB5132 /* NumbersViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NumbersViewCell.h; sourceTree = "<group>"; };
+		99E16F5326DC304600BB5132 /* NumbersViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NumbersViewCell.m; sourceTree = "<group>"; };
+		99E16F5526DC4D8100BB5132 /* DefaultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultRequest.swift; sourceTree = "<group>"; };
 		99FC647226CC51B400F985EF /* NCConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCConfiguration.swift; sourceTree = "<group>"; };
 		99FC647526CC5A1800F985EF /* NCHTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCHTTPMethod.swift; sourceTree = "<group>"; };
 		99FC647726CC5DAE00F985EF /* NCRequestTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCRequestTask.swift; sourceTree = "<group>"; };
@@ -278,8 +284,8 @@
 		99AD1B4926C979DD007A5DFF /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				99AD1B4A26C97A08007A5DFF /* LoadingView.swift */,
-				99AD1B4C26C9B5B3007A5DFF /* ErrorPlaceholderView.swift */,
+				99E16F5026DC2FF600BB5132 /* TableView */,
+				99E16F4F26DC2FE200BB5132 /* StateViews */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -347,6 +353,25 @@
 				99E16F4D26D941DD00BB5132 /* NumbersDetailModuleAssembly.swift */,
 			);
 			path = Assembly;
+			sourceTree = "<group>";
+		};
+		99E16F4F26DC2FE200BB5132 /* StateViews */ = {
+			isa = PBXGroup;
+			children = (
+				99AD1B4A26C97A08007A5DFF /* LoadingView.swift */,
+				99AD1B4C26C9B5B3007A5DFF /* ErrorPlaceholderView.swift */,
+			);
+			path = StateViews;
+			sourceTree = "<group>";
+		};
+		99E16F5026DC2FF600BB5132 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				99E16F5226DC304600BB5132 /* NumbersViewCell.h */,
+				99E16F5326DC304600BB5132 /* NumbersViewCell.m */,
+				99E16F5126DC304600BB5132 /* TeladocHealthTestProject-Bridging-Header.h */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 		99FC647B26CC6BCF00F985EF /* Retrier */ = {
@@ -424,6 +449,7 @@
 			children = (
 				99FC651426D6EF6300F985EF /* Schemas */,
 				99FC650E26D5C3F800F985EF /* ApiService.swift */,
+				99E16F5526DC4D8100BB5132 /* DefaultRequest.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -573,6 +599,7 @@
 				99AFEEA126C8875E00472CA2 /* NumbersListModuleAssembly.swift in Sources */,
 				99FC649126CDC9C000F985EF /* NCSessionDelegate.swift in Sources */,
 				994BA71F26C7195900DA7D17 /* AppCoordinator.swift in Sources */,
+				99E16F5626DC4D8100BB5132 /* DefaultRequest.swift in Sources */,
 				994BA6F226C718BD00DA7D17 /* NumbersListViewController.swift in Sources */,
 				99FC647826CC5DAE00F985EF /* NCRequestTask.swift in Sources */,
 				99AD1B4B26C97A08007A5DFF /* LoadingView.swift in Sources */,
@@ -583,6 +610,7 @@
 				99FC651826D6EF8B00F985EF /* NumbersResponseSchema.swift in Sources */,
 				99FC650F26D5C3F800F985EF /* ApiService.swift in Sources */,
 				99E16F4926D933F800BB5132 /* NumbersDetailPresenter.swift in Sources */,
+				99E16F5426DC304600BB5132 /* NumbersViewCell.m in Sources */,
 				99FC648F26CD57AB00F985EF /* NCError.swift in Sources */,
 				99D7CDAF26C94B3200A06DE6 /* NumbersListPresenter.swift in Sources */,
 				99AD1B5226C9D4BD007A5DFF /* NetworkClient.swift in Sources */,
@@ -783,7 +811,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = example.TeladocHealthTestProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "TeladocHealthTestProject/Components/TableView/TeladocHealthTestProject-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -805,7 +833,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = example.TeladocHealthTestProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "TeladocHealthTestProject/Components/TableView/TeladocHealthTestProject-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

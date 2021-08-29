@@ -8,31 +8,12 @@
 import UIKit
 
 protocol IApiService {
-    
+    func fetchNumbers(completion: @escaping (Result<[NumberItem], NCError>) -> Void)
+    func loadImage(with urlString: String, completion: @escaping (Result<UIImage, NCError>) -> Void)
+    func fetchDetails(with name: String, completion: @escaping (Result<NumbersDetailItem, NCError>) -> Void)
 }
 
-struct RequestModelImpl: RequestModel {
-    var customURL: URL?
-    var host: String?
-    var path: String
-    var method: NCHTTPMethod = .get
-    var headers: [String : String] = ["Content-Type": "application/json"]
-    var parameters: [String: Any]? = nil
-    var cachePolicy: URLRequest.CachePolicy = .reloadIgnoringCacheData
-    var retryPolicy: RetryPolicy = .noRetry
-    var timeoutInterval: TimeInterval = 30
-    
-    init(path: String) {
-        self.path = path
-    }
-    
-    init(url: URL) {
-        self.customURL = url
-        self.path = ""
-    }
-}
-
-class ApiService {
+class ApiService: IApiService {
     enum Endpoint: String {
         case numbers = "/test/json.php"
     }
@@ -42,7 +23,7 @@ class ApiService {
     )
     
     func fetchNumbers(completion: @escaping (Result<[NumberItem], NCError>) -> Void) {
-        let requestModel = RequestModelImpl(path: Endpoint.numbers.rawValue)
+        let requestModel = DefaultRequest(path: Endpoint.numbers.rawValue)
         
         do {
             try networkClient.run(model: requestModel) { data, error in
@@ -65,13 +46,13 @@ class ApiService {
         } catch NCError.requestBuildError(let reason) {
             completion(.failure(NCError.requestBuildError(reason)))
         } catch {
-            completion(.failure(.networkError(.emptyResponse)))
+            completion(.failure(.requestBuildError(.unknownError)))
         }
     }
     
     func loadImage(with urlString: String, completion: @escaping (Result<UIImage, NCError>) -> Void) {
         guard let url = URL(string: urlString) else { return }
-        let requestModel = RequestModelImpl(url: url)
+        let requestModel = DefaultRequest(url: url)
         
         do {
             try networkClient.run(model: requestModel) { data, error in
@@ -85,13 +66,15 @@ class ApiService {
                     }
                 }
             }
+        } catch NCError.requestBuildError(let reason) {
+            completion(.failure(.requestBuildError(reason)))
         } catch {
-            
+            completion(.failure(.requestBuildError(.unknownError)))
         }
     }
     
     func fetchDetails(with name: String, completion: @escaping (Result<NumbersDetailItem, NCError>) -> Void) {
-        var requestModel = RequestModelImpl(path: Endpoint.numbers.rawValue)
+        var requestModel = DefaultRequest(path: Endpoint.numbers.rawValue)
         guard let dictionary = NumbersDetailRequestSchema(name: name).makeDictionary() else { return }
         requestModel.parameters = dictionary
         

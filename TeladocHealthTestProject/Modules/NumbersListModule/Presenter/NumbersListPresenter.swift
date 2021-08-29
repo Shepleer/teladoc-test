@@ -16,10 +16,10 @@ protocol NumbersListPresenterToViewProtocol: AnyObject {
 class NumbersListPresenter {
     weak var view: NumbersListPresenterToViewProtocol?
     weak var moduleDelegate: NumbersListModuleDelegate?
-    private var apiService = ApiService()
+    private var apiService: IApiService = ApiService()
 
     private var dataSource: [NumberItem] = []
-    private var activeLoadingImagesUrls: Set<String> = []
+    private var activeLoadingCellsIndexPaths: Set<IndexPath> = []
 }
 
 extension NumbersListPresenter: NumbersListViewToPresenterProtocol {
@@ -43,8 +43,8 @@ extension NumbersListPresenter: NumbersListViewToPresenterProtocol {
     }
     
     func tableView(wantsToLoadContentForModel model: NumberItem, with indexPath: IndexPath) {
-        guard !activeLoadingImagesUrls.contains(model.imageLink) else { return }
-        activeLoadingImagesUrls.insert(model.imageLink)
+        guard !activeLoadingCellsIndexPaths.contains(indexPath) else { return }
+        activeLoadingCellsIndexPaths.insert(indexPath)
         apiService.loadImage(with: model.imageLink) { [weak self, model, indexPath] result in
             guard let self = self, let image = try? result.get() else {
                 return
@@ -52,7 +52,7 @@ extension NumbersListPresenter: NumbersListViewToPresenterProtocol {
             let resultModel = model.withImage(image)
             self.dataSource[indexPath.row] = resultModel
             self.view?.update(cellWith: resultModel, at: indexPath)
-            self.activeLoadingImagesUrls.remove(model.imageLink)
+            self.activeLoadingCellsIndexPaths.remove(indexPath)
         }
     }
     

@@ -19,7 +19,7 @@ class NumbersListViewController: UIViewController {
         static let titleText = "Numbers List"
         static let loaderText = "Loading.."
         static let errorLabelText = "Something went wrong"
-        static let cellIdentifier = "defaultCell"
+        static let cellIdentifier = "numbersCell"
     }
     
     var presenter: NumbersListViewToPresenterProtocol?
@@ -28,7 +28,7 @@ class NumbersListViewController: UIViewController {
         let tableView = UITableView()
         tableView.backgroundColor = .systemBackground
         tableView.frame = view.frame
-        
+        tableView.register(NumbersViewCell.self, forCellReuseIdentifier: Appearance.cellIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
         return tableView
@@ -54,6 +54,15 @@ class NumbersListViewController: UIViewController {
         }
     }
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -75,9 +84,9 @@ class NumbersListViewController: UIViewController {
 extension NumbersListViewController: NumbersListPresenterToViewProtocol {
     func update(cellWith model: NumberItem, at indexPath: IndexPath) {
         dataSource[indexPath.row] = model
-//        tableView.beginUpdates()
-        tableView.reloadRows(at: [indexPath], with: .none)
-//        tableView.endUpdates()
+        if let cell = tableView.cellForRow(at: indexPath) as? NumbersViewCell {
+            cell.numberImageView.image = model.image
+        }
     }
     
     func update(dataSource: [NumberItem]) {
@@ -108,11 +117,16 @@ extension NumbersListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: Appearance.cellIdentifier)
+        guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: Appearance.cellIdentifier,
+                for: indexPath) as? NumbersViewCell
+        else {
+            fatalError("cell isn't registered")
+        }
         let model = dataSource[indexPath.row]
-        cell.textLabel?.text = model.name
+        cell.numberLabel.text = model.name
         if let image = model.image {
-            cell.imageView?.image = image
+            cell.numberImageView.image = image
         } else {
             presenter?.tableView(wantsToLoadContentForModel: model, with: indexPath)
         }
@@ -127,20 +141,7 @@ extension NumbersListViewController: UITableViewDataSource {
 extension NumbersListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        cell.backgroundColor = .systemBlue
         presenter?.tableViewCell(cell: cell, didSelectedAt: indexPath)
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        cell.backgroundColor = .systemBackground
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        // workaround for default table view cell
-        if tableView.indexPathForSelectedRow == indexPath {
-            cell.backgroundColor = .systemBlue
-        }
     }
 }
 

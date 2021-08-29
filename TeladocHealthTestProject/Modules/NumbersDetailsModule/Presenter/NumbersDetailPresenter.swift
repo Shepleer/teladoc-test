@@ -15,7 +15,7 @@ class NumbersDetailPresenter {
     
     weak var view: NumbersDetailPresenterToViewProtocol?
     weak var moduleDelegate: NumbersDetailModuleDelegate?
-    private var apiService = ApiService()
+    private var apiService: IApiService = ApiService()
     private let numberItem: NumberItem
     
     init(with model: NumberItem) {

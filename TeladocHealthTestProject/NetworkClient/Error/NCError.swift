@@ -11,6 +11,7 @@ enum NCError: Error {
     enum RequestBuildErrorReason {
         case wrongURL
         case invalidRequestModel
+        case unknownError
         
         var description: String {
             "TODO: write description"
